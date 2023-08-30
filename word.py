@@ -1,18 +1,19 @@
+'''
 class Word:
-    def __init__(self):
-        self.word = ''
-        self.PoS = ''
-        self.define = {self.PoS: []}
-        self.trans = ''
+    def __init__(self, word):
+        self.word = word
+        self.PoS = []
+        self.define = []
+        self.trans = []
         self.pronounce = ''
         self.examples = []
         self.synonyms = []
         self.antonyms = []
 
-    def defWord(self, word, definition, PoS):
-        self.word = word
-        self.define = definition
-        self.Pos = PoS
+    def addDef(self, PoS, definition):
+        self.Pos.append(PoS)
+        self.define.append(definition)
+        
     
     def giveTrans(self, eng):
         self.trans = eng
@@ -44,4 +45,21 @@ class Word:
         else:
             return False
     
-    
+'''
+
+
+
+class PoS:
+    def __init__(self, type):
+        self.type = type
+        self.definition = ''
+        self.trans = ''
+        self.ex = []
+        self.syn = []
+        self.ant = []
+
+class Word:
+    def __init__(self):
+        self.ipa = ''
+        self.defs = [] ##List of PoS objects
+        
