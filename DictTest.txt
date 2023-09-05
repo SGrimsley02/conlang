@@ -1,3 +1,2 @@
-word1   PoS1    def1    trans1  pro1    ex1 syn1    ant1
-word2   PoS2    def2    trans2  pro2    ex2 syn2    ant2
-word3   PoS3    def3    trans3  pro3    ex3 syn3    ant3
+Pop===päp===Verb; Noun; Noun;===To burst; Soda; A loud sound;===Null; Null; Null;===pop a bubble, pop the gum; coke is pop; pop goes the weasel;===burst; soda, coke; bang;===collapse, implode; Null; whimper;
+Word===IPA===PoS1; PoS2; ...;===def1; def2; ...;===trans1; trans2; ...;===ex1.1, ex1.2, ...; ex2.1, ex2.2, ...; ...;===syn1.1, syn1.2, ...; syn2.1, syn2.2, ...; ...;===ant1.1, ant1.2, ...; ant2.1, ant2.2, ...; ...;
