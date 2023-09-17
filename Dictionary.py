@@ -8,6 +8,7 @@
 
 import pickle
 from word import *
+from GUI import inputGUI, displayGUI
 
 def loadDict(filename):
     '''Enter the file to load in.'''
@@ -22,18 +23,19 @@ def saveDict(filename):
     print("File saved")
 ##Note: Recommended to save to different file than loaded, that way
 ##      a backup is maintained.
-def addWord(word):
+def addWord():
     '''Enter word to add.'''
+    word = inputGUI("Word: ")
     if word in Dictionary.keys():
         print(f"{Dictionary[word]}")
         print("Enter the following for the new definition, or 'None' to skip")
         tempPoS = PoS()
-        tempPoS.type = input("Part of Speech: ")
-        tempPoS.definition = input("Definition: ")
-        tempPoS.translation = input("Translation: ")
-        tempPoS.example = input("Example sentence(s): ").split('===')
-        tempPoS.synonym = input("Synonym(s): ").split(',')
-        tempPoS.antonym = input("Antonym(s): ").split(',')
+        tempPoS.type = inputGUI("Part of Speech: ")
+        tempPoS.definition = inputGUI("Definition: ")
+        tempPoS.translation = inputGUI("Translation: ")
+        tempPoS.example = inputGUI("Example sentence(s): ").split('===')
+        tempPoS.synonym = inputGUI("Synonym(s): ").split(',')
+        tempPoS.antonym = inputGUI("Antonym(s): ").split(',')
         Dictionary[word].forms.append(tempPoS)
     else:
         tempWord = Word()
@@ -41,20 +43,29 @@ def addWord(word):
         tempWord.word = word
         print("Congratulations on a new word!")
         print("Enter 'None' when skipping an element")
-        tempWord.ipa = input("Enter IPA: ")
-        tempPoS.type = input("Part of Speech: ")
-        tempPoS.definition = input("Definition: ")
-        tempPoS.translation = input("Translation: ")
-        tempPoS.example = input("Example sentence(s) (Split by ===): ").split('===')
-        tempPoS.synonym = input("Synonym(s): ").split(',')
-        tempPoS.antonym = input("Antonym(s): ").split(',')
+        tempWord.ipa = inputGUI("Enter IPA: ")
+        tempPoS.type = inputGUI("Part of Speech: ")
+        tempPoS.definition = inputGUI("Definition: ")
+        tempPoS.translation = inputGUI("Translation: ")
+        tempPoS.example = inputGUI("Example sentence(s) (Split by ===): ").split('===')
+        tempPoS.synonym = inputGUI("Synonym(s): ").split(',')
+        tempPoS.antonym = inputGUI("Antonym(s): ").split(',')
         tempWord.forms.append(tempPoS)
         Dictionary[word] = tempWord
 
-def viewWord(word):
+def viewWord():
     '''Enter word you wish to view.'''
+    word = inputGUI("Word: ")
     x = Dictionary[word]
-    print('-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-')
+    displayGUI((f'''{0+1}. {x.forms[0].type}\n
+{x.forms[0].definition}\n
+Translation: {x.forms}\n
+Examples:\n
+    {x.forms[0].example}\n
+Synonyms: {''.join(x.forms[0].synonym)}\n
+Antonyms: {''.join(x.forms[0].antonym)}\n
+'''))
+    '''print('-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-')
     print(f"{x.word} ({x.ipa})")
     for i in range(len(x.forms)):
         print(f"{i + 1}. {x.forms[i].type}")
@@ -65,7 +76,7 @@ def viewWord(word):
         print("Synonyms:", ''.join(x.forms[i].synonym))
         print("Antonyms:", ''.join(x.forms[i].antonym))
         print()
-    print('-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-')
+    print('-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-')'''
 
 def editWord(word, index):
     '''Enter word to edit, then number of form to edit.'''
@@ -80,11 +91,11 @@ def editWord(word, index):
     
     x = Dictionary[word].forms[index]
     print("Update word, type nothing to skip")
-    prtOSpch = input("New part of speech: ")
-    defn = input("New definition: ")
-    trans = input("New translation: ")
-    ex = input("New example(s): ")
-    syn = input("New synonym(s): ")
+    prtOSpch = inputGUI("New part of speech: ")
+    defn = inputGUI("New definition: ")
+    trans = inputGUI("New translation: ")
+    ex = inputGUI("New example(s): ")
+    syn = inputGUI("New synonym(s): ")
     ant = input("New antonym(s): ")
     if prtOSpch != '':
         x.type = prtOSpch
