@@ -1,5 +1,6 @@
 import pygame
 import sys
+from word import *
 
 def inputGUI(inputType): ##Returns typed value when enter is pressed
     pygame.init()
@@ -7,10 +8,10 @@ def inputGUI(inputType): ##Returns typed value when enter is pressed
     screen = pygame.display.set_mode([600, 500])
 
     ##Font
-    base_font = pygame.font.SysFont('Conscript', 32)
+    base_font = pygame.font.SysFont('Conscript', 50)
     user_text = ''
 
-    input_rect = pygame.Rect(200, 200, 140, 32)
+    input_rect = pygame.Rect(100, 100, 500, 300)
 
     pygame.display.set_caption(inputType)
 
@@ -29,7 +30,6 @@ def inputGUI(inputType): ##Returns typed value when enter is pressed
             ##Quit, can also press escape, or ends when returned
             if event.type == pygame.QUIT:
                 pygame.quit()
-                sys.exit()
             ##If click the box, light up
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if input_rect.collidepoint(event.pos):
@@ -42,7 +42,6 @@ def inputGUI(inputType): ##Returns typed value when enter is pressed
                     user_text = user_text[:-1]
                 elif event.key == pygame.K_ESCAPE: ##Quit, should actually work
                     pygame.quit()
-                    sys.exit()
                 elif all_keys[pygame.K_a] and shift_and_alt_key: ##Doing each individually, should work better on different OS
                     user_text += '\u01D1'
                 elif all_keys[pygame.K_b] and shift_and_alt_key: ##Currently goes to \u01E7, haven't done numbers
@@ -285,6 +284,7 @@ def inputGUI(inputType): ##Returns typed value when enter is pressed
                     user_text += '\U000F0116'
                 ##### For all additional characters, start adding elif statements here
                 elif all_keys[pygame.K_RETURN]:
+                    pygame.quit()
                     return user_text
                 
         
@@ -326,7 +326,7 @@ def displayGUI(entry): ##Displays dictionary entries in native script
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                sys.exit()
+                
             
         screen.fill('purple')
         pygame.draw.rect(screen, color, displayBox)
@@ -335,5 +335,61 @@ def displayGUI(entry): ##Displays dictionary entries in native script
 
         pygame.display.flip()
         clock.tick(60)
-##Pass in a Word object
 
+def wordDisplay(entry):
+    pygame.init()
+    clock = pygame.time.Clock()
+    screen = pygame.display.set_mode([1000, 750])
+    base_font = pygame.font.SysFont('Conscript', 32)
+    word_display = pygame.Rect(25, 25, 400, 50)
+    ipa_display = pygame.Rect(450, 25, 300, 50)
+    formsList = []
+    defsList = []
+    transList = []
+    exList = []
+    synList = []
+    antList = []
+    for i in range(len(entry.forms)):
+        formsList.append(pygame.Rect(25, 100 + (450*i), 200, 50))
+        defsList.append(pygame.Rect(25, 175 + (450*i), 950, 50))
+        transList.append(pygame.Rect(25, 250 + (450*i), 950, 50))
+        exList.append(pygame.Rect(25, 325 + (450*i), 950, 50))
+        synList.append(pygame.Rect(25, 400 + (450*i), 950, 50))
+        antList.append(pygame.Rect(25, 475 + (450*i), 950, 50))
+    color = pygame.Color('pink')
+    pygame.display.set_caption("Dictionary Entry:")
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                
+        screen.fill('lightblue')
+        pygame.draw.rect(screen, color, word_display)
+        word_text = base_font.render(entry.word, True, 'white')
+        screen.blit(word_text, [word_display.x + 5,word_display.y + 5])
+        pygame.draw.rect(screen, color, ipa_display)
+        ipa_text = base_font.render(entry.ipa, True, 'white')
+        screen.blit(ipa_text, [ipa_display.x + 5, ipa_display.y + 5])
+        for i in range(len(formsList)):
+            pygame.draw.rect(screen, color, formsList[i])
+            form_text = base_font.render(entry.forms[i].type, True, 'white')
+            screen.blit(form_text, [formsList[i].x + 5, formsList[i].y + 5])
+            pygame.draw.rect(screen, color, defsList[i])
+            def_text = base_font.render(entry.forms[i].definition, True, 'white')
+            screen.blit(def_text, [defsList[i].x + 5, defsList[i].y + 5])
+            pygame.draw.rect(screen, color, transList[i])
+            trans_text = base_font.render(entry.forms[i].translation, True, 'white')
+            screen.blit(trans_text, [transList[i].x + 5, transList[i].y + 5])
+            pygame.draw.rect(screen, color, exList[i])
+            ex_text = base_font.render(entry.forms[i].example[0], True, 'white')
+            screen.blit(ex_text, [exList[i].x + 5, exList[i].y + 5])
+            pygame.draw.rect(screen, color, synList[i])
+            syn_text = base_font.render(entry.forms[i].synonym[0], True, 'white')
+            screen.blit(syn_text, [synList[i].x + 5, synList[i].y + 5])
+            pygame.draw.rect(screen, color, antList[i])
+            ant_text = base_font.render(entry.forms[i].antonym[0], True, 'white')
+            screen.blit(ant_text, [antList[i].x + 5, antList[i].y + 5])
+
+        pygame.display.flip()
+        clock.tick(60)
+        

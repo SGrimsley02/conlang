@@ -8,7 +8,7 @@
 
 import pickle
 from word import *
-from GUI import inputGUI, displayGUI
+from GUI import inputGUI, wordDisplay
 
 def loadDict(filename):
     '''Enter the file to load in.'''
@@ -25,58 +25,47 @@ def saveDict(filename):
 ##      a backup is maintained.
 def addWord():
     '''Enter word to add.'''
-    word = inputGUI("Word: ")
-    if word in Dictionary.keys():
-        print(f"{Dictionary[word]}")
-        print("Enter the following for the new definition, or 'None' to skip")
-        tempPoS = PoS()
-        tempPoS.type = inputGUI("Part of Speech: ")
-        tempPoS.definition = inputGUI("Definition: ")
-        tempPoS.translation = inputGUI("Translation: ")
-        tempPoS.example = inputGUI("Example sentence(s): ").split('===')
-        tempPoS.synonym = inputGUI("Synonym(s): ").split(',')
-        tempPoS.antonym = inputGUI("Antonym(s): ").split(',')
-        Dictionary[word].forms.append(tempPoS)
-    else:
-        tempWord = Word()
-        tempPoS = PoS()
-        tempWord.word = word
-        print("Congratulations on a new word!")
-        print("Enter 'None' when skipping an element")
-        tempWord.ipa = inputGUI("Enter IPA: ")
-        tempPoS.type = inputGUI("Part of Speech: ")
-        tempPoS.definition = inputGUI("Definition: ")
-        tempPoS.translation = inputGUI("Translation: ")
-        tempPoS.example = inputGUI("Example sentence(s) (Split by ===): ").split('===')
-        tempPoS.synonym = inputGUI("Synonym(s): ").split(',')
-        tempPoS.antonym = inputGUI("Antonym(s): ").split(',')
-        tempWord.forms.append(tempPoS)
-        Dictionary[word] = tempWord
+    try:
+        word = inputGUI("Word: ")
+        if word in Dictionary.keys():
+            print(f"{Dictionary[word]}")
+            print("Enter the following for the new definition, or 'None' to skip")
+            tempPoS = PoS()
+            tempPoS.type = inputGUI("Part of Speech: ")
+            tempPoS.definition = inputGUI("Definition: ")
+            tempPoS.translation = inputGUI("Translation: ")
+            tempPoS.example = inputGUI("Example sentence(s): ").split('===')
+            tempPoS.synonym = inputGUI("Synonym(s): ").split(',')
+            tempPoS.antonym = inputGUI("Antonym(s): ").split(',')
+            Dictionary[word].forms.append(tempPoS)
+        else:
+            tempWord = Word()
+            tempPoS = PoS()
+            tempWord.word = word
+            print("Congratulations on a new word!")
+            print("Enter 'None' when skipping an element")
+            tempWord.ipa = inputGUI("Enter IPA: ")
+            tempPoS.type = inputGUI("Part of Speech: ")
+            tempPoS.definition = inputGUI("Definition: ")
+            tempPoS.translation = inputGUI("Translation: ")
+            tempPoS.example = inputGUI("Example sentence(s) (Split by ===): ").split('===')
+            tempPoS.synonym = inputGUI("Synonym(s): ").split(',')
+            tempPoS.antonym = inputGUI("Antonym(s): ").split(',')
+            tempWord.forms.append(tempPoS)
+            Dictionary[word] = tempWord
+    except:
+        print("Please try not to close in the middle of creating a word.")
 
 def viewWord():
     '''Enter word you wish to view.'''
     word = inputGUI("Word: ")
-    x = Dictionary[word]
-    displayGUI((f'''{0+1}. {x.forms[0].type}\n
-{x.forms[0].definition}\n
-Translation: {x.forms}\n
-Examples:\n
-    {x.forms[0].example}\n
-Synonyms: {''.join(x.forms[0].synonym)}\n
-Antonyms: {''.join(x.forms[0].antonym)}\n
-'''))
-    '''print('-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-')
-    print(f"{x.word} ({x.ipa})")
-    for i in range(len(x.forms)):
-        print(f"{i + 1}. {x.forms[i].type}")
-        print(x.forms[i].definition)
-        print(f"Translation: {x.forms[i].translation}")
-        print("Examples:")
-        print(x.forms[i].example)
-        print("Synonyms:", ''.join(x.forms[i].synonym))
-        print("Antonyms:", ''.join(x.forms[i].antonym))
-        print()
-    print('-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-')'''
+    try:
+        x = Dictionary[word]
+        wordDisplay(x)
+    except KeyError:
+        print("Error: word doesn't exist")
+    except:
+        print("Mooooooooooo\n\t-Anonymous Cow")
 
 def editWord(word, index):
     '''Enter word to edit, then number of form to edit.'''
@@ -124,7 +113,5 @@ def deleteWord(word):
         else:
             print(f"Bye bye {word}")
             Dictionary.pop(word)
-
-
 
 Dictionary = loadDict('pickleTest.Dictionary')
