@@ -46,6 +46,7 @@ In the near future, plans include adding:
 * Expanding support for example sentences
 * Automatic IPA translations
 * Resources for coming up with conlang ideas
+* Data visualization for phoneme, syntax, and language analysis
 * Improved storage options
 * Reformatting of the repository
 
