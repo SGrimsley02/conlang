@@ -114,4 +114,4 @@ def deleteWord(word):
             print(f"Bye bye {word}")
             Dictionary.pop(word)
 
-Dictionary = loadDict('pickleTest.Dictionary')
+Dictionary = loadDict('pickleTest.Dictionary') ##Using this for testing, cleaner option to be implemented soon
