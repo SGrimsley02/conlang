@@ -18,7 +18,7 @@ to be easily managed or observed by those without programming knowledge.
 # How to Open the Dictionary
 Prerequisites: Pygame
 
-Open Dictionary.py and type the following commands into the terminal:
+Make sure prereqs are installed and the repository forked, then open Dictionary.py and type the following commands into the terminal:
 
       python3
       from Dictionary import *
