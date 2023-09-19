@@ -65,7 +65,7 @@ def viewWord():
     except KeyError:
         print("Error: word doesn't exist")
     except:
-        print("Mooooooooooo\n\t-Anonymous Cow")
+        pass
 
 def editWord(word, index):
     '''Enter word to edit, then number of form to edit.'''
