@@ -1,6 +1,7 @@
 import pygame
 import sys
 from word import *
+import os
 
 def inputGUI(inputType): ##Returns typed value when enter is pressed
     pygame.init()
@@ -8,7 +9,10 @@ def inputGUI(inputType): ##Returns typed value when enter is pressed
     screen = pygame.display.set_mode([600, 500])
 
     ##Font
-    base_font = pygame.font.SysFont('Conscript', 50)
+    if os.name == 'posix':
+        base_font = pygame.font.SysFont('Conscript', 50)
+    elif os.name == 'nt':
+        base_font = pygame.font.SysFont('Conscript Regular', 50)
     user_text = ''
 
     input_rect = pygame.Rect(100, 100, 500, 300)
