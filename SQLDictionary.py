@@ -43,6 +43,7 @@ parts_of_speech_and_definitions = [
 ]
 translations = ["ejemplo (Spanish)", "exemplo (Portuguese)"]
 synonyms = ["illustration", "instance"]
+#####
 
 def addWord(new_word, ipa_rep, PoSandDefs, translations=[], synonyms=[]): ## Adds word to dictionary
     '''Takes a word, ipa, list of tuples with PoS and defs, optional translations and synonyms lists.'''
@@ -132,18 +133,3 @@ def printWord(word_to_find): ## Mostly just for testing
                 print(f"- {synonym[0]}")
     else:
         print(f"The word '{word_to_find}' was not found in the database.")
-
-#addWord(new_word, ipa_representation, parts_of_speech_and_definitions, translations= translations, synonyms= synonyms)
-#printWord('example')
-#editWord('example', new_ipa="ExAmPlE")
-#printWord('example')
-#removeWord('example')
-
-##################
-
-
-
-
-
-## End
-#conn.close()
