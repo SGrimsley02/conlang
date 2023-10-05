@@ -396,4 +396,5 @@ def wordDisplay(entry):
 
         pygame.display.flip()
         clock.tick(60)
-        
+
+
