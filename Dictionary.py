@@ -15,7 +15,8 @@ def addToDict():
     addWord(inputGUI("Word: "), inputGUI("IPA: "), [(inputGUI("PoS: "), inputGUI("Defs: "))], inputGUI("Translations: ").split('; '), inputGUI("Synonyms: ").split('; '))
 
 def viewWord():
-    wordDisplay(inputGUI('Word: '))
+    wordToDisplay = inputGUI('Word: ')
+    ## Fix wordDisplay() in GUI to work with SQL
 
 def removeWordDict():
     removeWord(inputGUI('Word to remove: '))

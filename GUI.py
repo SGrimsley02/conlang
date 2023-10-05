@@ -1,6 +1,6 @@
 import pygame
 import sys
-from word import *
+from TestStuff.word import *
 import os
 
 def inputGUI(inputType): ##Returns typed value when enter is pressed
