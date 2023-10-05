@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* Styles for the pop-up container */
+        .popup-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Styles for the pop-up box */
+        .popup-box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Button to trigger the pop-up -->
+<button onclick="showPopup()">Open Pop-up</button>
+
+<!-- The pop-up container -->
+<div class="popup-container" id="popup">
+    <!-- The pop-up box with input fields -->
+    <div class="popup-box">
+        <h2>Enter Data</h2>
+        <input type="text" placeholder="Input 1"><br>
+        <input type="text" placeholder="Input 2"><br>
+        <input type="text" placeholder="Input 3"><br>
+        <input type="text" placeholder="Input 4"><br>
+        <input type="text" placeholder="Input 5"><br>
+        <input type="text" placeholder="Input 6"><br>
+        <input type="text" placeholder="Input 7"><br>
+        <input type="text" placeholder="Input 8"><br>
+        <button onclick="closePopup()">Close</button>
+    </div>
+</div>
+
+<script>
+    // Function to show the pop-up
+    function showPopup() {
+        document.getElementById('popup').style.display = 'flex';
+    }
+
+    // Function to close the pop-up
+    function closePopup() {
+        document.getElementById('popup').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>

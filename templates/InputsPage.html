@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inputs Page</title>
+</head>
+<body>
+    <form action="/process_input" method="POST">
+        <h2>Enter Data</h2>
+        <input type="text" id="Word" placeholder="Word"><br>
+        <input type="text" id="IPA" placeholder="IPA"><br>
+        <input type="text" id="PoS" placeholder="Part of Speech"><br>
+        <input type="text" id="Definition" placeholder="Definition"><br>
+        <input type="text" id="Translation" placeholder="Translation"><br>
+        <input type="text" id="Example" placeholder="Example"><br>
+        <input type="text" id="Synonym" placeholder="Synonym"><br>
+        <input type="text" id="Antonym" placeholder="Antonym"><br>
+        <button type="submit">Submit</button>
+    </form>
+    
+
+    <script>
+        // Function to show the pop-up
+        function showPopup() {
+            document.getElementById('popup').style.display = 'flex';
+        }
+
+        // Function to close the pop-up
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
