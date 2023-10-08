@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Dictionary</title>
+    <style>
+        @font-face {
+            font-family: 'Conscript';
+            src: url('fonts/Conscript Regular.ttf') format('truetype');
+        }
+        body {
+            font-family: 'Conscript', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: aliceblue;
+        }
+
+        header {
+            font-family: 'Conscript', serif;
+            padding: 20px;
+            background-color: black;
+            color:cornsilk;
+            text-align: center;
+        }
+        
+        input {
+            font-family: 'Conscript', sans-serif;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+
+        .column {
+            flex: 1;
+            background-color: aliceblue;
+            border: 1px solid black;
+            padding: 20px;
+            text-align: center;
+            margin: 10px;
+            border-radius: 5px;
+        }
+
+        .btn {
+            display: block;
+            width: 95%;
+            padding: 10px;
+            background-color: #0074d9;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .hidden_column {
+            display: none;
+            flex: 1;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header><h1>ƕƓƁƕ</h1></header>
+
+    <div class="container">
+        <div class="column">
+            <h2>ƴƚƶƳǘ</h2>
+            <button class="btn" onclick="toggleColumn('AddWord')">Add Word</button>
+        </div>
+
+        <div class="hidden_column" id="AddWord">
+            <form action="/addToDict" method="POST">
+                <input type="text" name="Word" placeholder="Word"><br>
+                <input type="text" name="IPA" placeholder="IPA"><br>
+                <input type="text" name="PoS" placeholder="Part of Speech"><br>
+                <input type="text" name="Def" placeholder="Definition"><br>
+                <input type="text" name="Trans" placeholder="Translation"><br>
+                <input type="text" name="Example" placeholder="Example"><br>
+                <input type="text" name="Syns" placeholder="Synonyms"><br>
+                <input type="text" name="Ants" placeholder="Antonyms"><br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+        function toggleColumn(columnID){
+            var column = document.getElementById(columnID);
+            if(column.style.display === 'block'){
+                column.style.display = 'none';
+            } else {
+                column.style.display = 'block'
+            }
+        }
+        
+    </script>
+</body>
+
+
+
+
+</html>

@@ -17,7 +17,7 @@ def process_input():
     Synonym = request.form.get('Synonym')
     Antonym = request.form.get('Antonym')
 
-    # Now you can use these variables in your Python code
+    ## Print to make sure it worked
     print(f"Input 1: {Word}")
     print(f"Input 2: {Ipa}")
     print(f"Input 3: {PoS}")
