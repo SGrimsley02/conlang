@@ -1,19 +1,15 @@
 import sqlite3
 import threading
 ## Connect to or create a SQLite database (if it doesn't exist)
-# Create a thread-local storage object
-local = threading.local()
 
-# Function to get or create a database connection for the current thread
+local = threading.local()
 def get_db_connection():
     if not hasattr(local, 'db'):
         local.db = sqlite3.connect('mydictionary.db')
     return local.db
-# Function to get a database cursor for the current thread
 def get_db_cursor():
     conn = get_db_connection()
     return conn.cursor()
-
 conn = get_db_connection()
 cursor = get_db_cursor()
 
@@ -55,6 +51,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS antonyms (
 conn.commit()
 cursor.close()
 conn.close()
+
 ##### Sample #####
 
 new_word = "example"
