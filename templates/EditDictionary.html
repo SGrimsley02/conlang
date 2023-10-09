@@ -89,6 +89,24 @@
             </form>
         </div>
     </div>
+    <div class="container">
+        <div class="column">
+            <h2>Ɛƴƙ</h2>
+            <button class="btn" onclick="toggleColumn('AddDef')">Add Definition</button>
+        </div>
+        <div class="hidden_column" id="AddDef">
+            <form action="/addToWord" method="POST">
+                <input type="text" name="Word" placeholder="Word"><br>
+                <input type="text" name="PoS" placeholder="Part of Speech"><br>
+                <input type="text" name="Def" placeholder="Definition"><br>
+                <input type="text" name="Trans" placeholder="Translation"><br>
+                <input type="text" name="Example" placeholder="Example"><br>
+                <input type="text" name="Syns" placeholder="Synonyms"><br>
+                <input type="text" name="Ants" placeholder="Antonyms"><br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
 
 
     <script>

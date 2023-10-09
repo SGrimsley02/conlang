@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect
-from SQLDictionary import addWord, printWord, search
+from SQLDictionary import addWord, printWord, search, editWord
 import json
 
 app = Flask(__name__)
@@ -24,8 +24,21 @@ def addToDict():
     Antonym = request.form.get('Ants')
 
     addWord(Word, Ipa, [(PoS, Definition)], [Example], [Translation], [Synonym], [Antonym])
-    printWord(Word)
     return redirect('/')
+
+@app.route('/addToWord', methods=['POST'])
+def addToWord():
+    Word = request.form.get('Word')
+    PoS = request.form.get('PoS')
+    Definition = request.form.get('Def')
+    Translation = request.form.get('Trans')
+    Example = request.form.get('Example')
+    Synonym = request.form.get('Syns')
+    Antonym = request.form.get('Ants')
+
+    editWord(Word, newPoSandDef=[(PoS,Definition)], newEx=Example, newTrans=Translation, newSyns=Synonym, newAnts=Antonym)
+    return redirect('/')
+
 
 @app.route('/ViewDictionary.html', methods=['GET', 'POST'])
 def ViewDictionary():
