@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect
-from SQLDictionary import addWord, printWord, search, editWord
+from SQLDictionary import addWord, search, editWord, removeWord
 import json
 
 app = Flask(__name__)
@@ -39,6 +39,12 @@ def addToWord():
     editWord(Word, newPoSandDef=[(PoS,Definition)], newEx=Example, newTrans=Translation, newSyns=Synonym, newAnts=Antonym)
     return redirect('/')
 
+@app.route('/remove', methods=['POST'])
+def remove():
+    Word = request.form.get('Word')
+
+    removeWord(Word)
+    return redirect('/')
 
 @app.route('/ViewDictionary.html', methods=['GET', 'POST'])
 def ViewDictionary():

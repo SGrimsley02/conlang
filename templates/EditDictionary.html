@@ -107,6 +107,18 @@
             </form>
         </div>
     </div>
+    <div class="container">
+        <div class="column">
+            <h2>ưƘƂƢ</h2>
+            <button class="btn" onclick="toggleColumn('RemoveWord')">Remove Word</button>
+        </div>
+        <div class="hidden_column" id="RemoveWord">
+            <form action="/remove" method="POST">
+                <input type="text" name="Word" placeholder="Word to Remove"><br>
+                <button type="submit">Remove</button>
+            </form>
+        </div>
+    </div>
 
 
     <script>
