@@ -221,6 +221,3 @@ def search(word_to_find):
 
         return word
 
-
-        
-        
