@@ -46,6 +46,11 @@ def remove():
     removeWord(Word)
     return redirect('/')
 
+@app.route('/EditGrammar.html', methods=['GET', 'POST'])
+def EditGrammar():
+    return render_template('Edit/EditGrammar.html')
+
+
 @app.route('/ViewDictionary.html', methods=['GET', 'POST'])
 def ViewDictionary():
     return render_template('View/Dict/ViewDictionary.html')
