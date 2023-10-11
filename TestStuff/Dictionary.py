@@ -8,7 +8,7 @@
 
 ##import pickle
 ##from word import *
-from GUI import inputGUI, wordDisplay
+from TestStuff.GUI import inputGUI, wordDisplay
 from SQLDictionary import *
 
 def addToDict():
