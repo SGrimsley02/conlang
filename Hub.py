@@ -10,7 +10,7 @@ def index():
 
 @app.route('/EditDictionary.html', methods=['GET', 'POST'])
 def EditDictionary():
-    return render_template('EditDictionary.html')
+    return render_template('Edit/EditDictionary.html')
 
 @app.route('/addToDict', methods=['POST'])
 def addToDict():
@@ -48,16 +48,16 @@ def remove():
 
 @app.route('/ViewDictionary.html', methods=['GET', 'POST'])
 def ViewDictionary():
-    return render_template('ViewDictionary.html')
+    return render_template('View/Dict/ViewDictionary.html')
 
 @app.route('/searchDict', methods=['GET', 'POST'])
 def searchDict():
     Word = request.form.get('search_query')
     word_info = search(Word)
     if word_info:
-        return render_template('searchResults.html', wordInfo=word_info)
+        return render_template('View/Dict/searchResults.html', wordInfo=word_info)
     else:
-        return render_template('noResult.html', entry_name=Word)
+        return render_template('View/Dict/noResult.html', entry_name=Word)
 
 
 
