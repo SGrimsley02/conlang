@@ -30,24 +30,36 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS definitions (
                     FOREIGN KEY (pos_id) REFERENCES parts_of_speech (pos_id))''')
 cursor.execute('''CREATE TABLE IF NOT EXISTS examples (
                examp_id INTEGER PRIMARY KEY,
-               word_id INTEGER,
+               pos_id INTEGER,
                example TEXT,
-               FOREIGN KEY (word_id) REFERENCES words (word_id))''')
+               FOREIGN KEY (pos_id) REFERENCES parts_of_speech (pos_id))''')
 cursor.execute('''CREATE TABLE IF NOT EXISTS translations (
                     trans_id INTEGER PRIMARY KEY,
-                    word_id INTEGER,
+                    pos_id INTEGER,
                     translation TEXT,
-                    FOREIGN KEY (word_id) REFERENCES words (word_id))''')
+                    FOREIGN KEY (pos_id) REFERENCES parts_of_speech (pos_id))''')
 cursor.execute('''CREATE TABLE IF NOT EXISTS synonyms (
                     syn_id INTEGER PRIMARY KEY,
-                    word_id INTEGER,
+                    pos_id INTEGER,
                     synonym TEXT,
-                    FOREIGN KEY (word_id) REFERENCES words (word_id))''')
+                    FOREIGN KEY (pos_id) REFERENCES parts_of_speech (pos_id))''')
 cursor.execute('''CREATE TABLE IF NOT EXISTS antonyms (
                     ant_id INTEGER PRIMARY KEY,
-                    word_id INTEGER,
+                    pos_id INTEGER,
                     antonym TEXT,
-                    FOREIGN KEY (word_id) REFERENCES words (word_id))''')
+                    FOREIGN KEY (pos_id) REFERENCES parts_of_speech (pos_id))''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS grammar (
+               id INTEGER PRIMARY KEY,
+               overview BLOB,
+               highlights BLOB,
+               nouns BLOB,
+               verbs BLOB,
+               adwords BLOB,
+               adpositions BLOB,
+               determiners BLOB,
+               particles BLOB,
+               interjections BLOB,
+               other BLOB)''')
 conn.commit()
 cursor.close()
 conn.close()
@@ -67,7 +79,7 @@ synonyms = ["illustration", "instance"]
 #####
 
 def addWord(new_word, ipa_rep, PoSandDefs, examples=[], translations=[], synonyms=[], antonyms=[]): ## Adds word to dictionary
-    '''Takes a word, ipa, list of tuples with PoS and defs, optional translations and synonyms lists.'''
+    '''Takes a word, ipa, list of tuples with PoS and defs, optional examples, translations, synonyms, and antonyms lists.'''
     conn = sqlite3.connect("mydictionary.db")
     cursor = conn.cursor()
     cursor.execute("INSERT INTO words (word, ipa) VALUES (?, ?)", (new_word, ipa_rep))
@@ -76,20 +88,28 @@ def addWord(new_word, ipa_rep, PoSandDefs, examples=[], translations=[], synonym
         cursor.execute("INSERT INTO parts_of_speech (word_id, part_of_speech) VALUES (?, ?)", (word_id, part_of_speech))
         pos_id = cursor.lastrowid
         cursor.execute("INSERT INTO definitions (pos_id, definition) VALUES (?, ?)", (pos_id, definition))
-    if examples:
-        for example in examples:
-            cursor.execute("INSERT INTO examples (word_id, example) VALUES (?, ?)", (word_id, example))
-    if translations:
-        for translation in translations:
-            cursor.execute("INSERT INTO translations (word_id, translation) VALUES (?, ?)", (word_id, translation))
-    if synonyms:
-        for syn in synonyms:
-            cursor.execute("INSERT INTO synonyms (word_id, synonym) VALUES (?, ?)", (word_id, syn))
-    if antonyms:
-        for ant in antonyms:
-            cursor.execute("INSERT INTO antonyms (word_id, antonym) VALUES (?, ?)", (word_id, ant))
+        if examples:
+            for example in examples:
+                cursor.execute("INSERT INTO examples (pos_id, example) VALUES (?, ?)", (pos_id, example))
+        if translations:
+            for translation in translations:
+                cursor.execute("INSERT INTO translations (pos_id, translation) VALUES (?, ?)", (pos_id, translation))
+        if synonyms:
+            for syn in synonyms:
+                cursor.execute("INSERT INTO synonyms (pos_id, synonym) VALUES (?, ?)", (pos_id, syn))
+        if antonyms:
+            for ant in antonyms:
+                cursor.execute("INSERT INTO antonyms (pos_id, antonym) VALUES (?, ?)", (pos_id, ant))
     conn.commit()
 
+def addDef(word_adding, PoSandDef, examples=[], translations=[], synonyms=[], antonyms=[]):
+    conn = sqlite3.connect("mydictionary.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT word_it FROM words WHERE word=?", (word_adding,))
+    word_id = cursor.fetchone()
+    if word_id:
+        PoS, Def = PoSandDef
+        
 def editWord(word_to_edit, new_ipa=None, newPoSandDef=None, newEx=[], newTrans=[], newSyns=[], newAnts=[]):
     cursor.execute("SELECT word_id FROM words WHERE word=?", (word_to_edit,))
     word_id = cursor.fetchone()
@@ -101,18 +121,18 @@ def editWord(word_to_edit, new_ipa=None, newPoSandDef=None, newEx=[], newTrans=[
                 cursor.execute("UPDATE parts_of_speech SET part_of_speech = ? WHERE word_id = ?", (part_of_speech, word_id[0]))
                 pos_id = cursor.lastrowid
                 cursor.execute("UPDATE definitions SET definition = ? WHERE pos_id = ?", (definition, pos_id))
-        if newEx:
-            for example in newEx:
-                cursor.execute("UPDATE examples SET example = ? WHERE word_id = ?", (example, word_id[0]))
-        if newTrans:
-            for translation in newTrans:
-                cursor.execute("UPDATE translations SET translation = ? WHERE word_id = ?", (translation, word_id[0]))
-        if newSyns:
-            for synonym in newSyns:
-                cursor.execute("UPDATE synonyms SET synonym = ? WHERE word_id = ?", (synonym, word_id))
-        if newAnts:
-            for antonym in newAnts:
-                cursor.execute("UPDATE antonyms SET antonym = ? WHERE word_id = ?", (antonym, word_id))
+                if newEx:
+                    for example in newEx:
+                        cursor.execute("UPDATE examples SET example = ? WHERE pos_id = ?", (example, pos_id))
+                if newTrans:
+                    for translation in newTrans:
+                        cursor.execute("UPDATE translations SET translation = ? WHERE pos_id = ?", (translation, pos_id))
+                if newSyns:
+                    for synonym in newSyns:
+                        cursor.execute("UPDATE synonyms SET synonym = ? WHERE pos_id = ?", (synonym, pos_id))
+                if newAnts:
+                    for antonym in newAnts:
+                        cursor.execute("UPDATE antonyms SET antonym = ? WHERE pos_id = ?", (antonym, pos_id))
         conn.commit()
     else:
         raise IndexError("Word does not exist.")
@@ -127,7 +147,7 @@ def removeWord(word_to_remove):
     else:
         raise IndexError("Word does not exist.")
 
-def printWord(word_to_find): ## Mostly just for testing
+def printWord(word_to_find): ## Mostly just for early testing, may not currently work
     # Retrieve the word and its IPA representation from the "words" table
     conn = sqlite3.connect("mydictionary.db")
     cursor = conn.cursor()
@@ -193,31 +213,36 @@ def search(word_to_find):
     conn = sqlite3.connect("mydictionary.db")
     cursor = conn.cursor()
     cursor.execute("SELECT word_id, ipa FROM words WHERE word = ?", (word_to_find,))
-    word_info = cursor.fetchone()  # Fetch the first matching row
+    word_info = cursor.fetchone()
     if word_info:
         word_id, ipa = word_info
         word = {}
         word["Word"] = word_to_find
         word["IPA"] = ipa
-        cursor.execute("""
-            SELECT ps.part_of_speech, d.definition
-            FROM parts_of_speech ps
-            JOIN definitions d ON ps.pos_id = d.pos_id
-            WHERE ps.word_id = ?
-        """, (word_id,))
-        word['pos_definitions'] = cursor.fetchall()
+        cursor.execute("SELECT part_of_speech FROM parts_of_speech WHERE word_id = ?", (word_id,))
+        word['pos'] = cursor.fetchall()
+        cursor.execute("SELECT pos_id FROM parts_of_speech WHERE word_id = ?", (word_id,))
+        pos_ids = [row[0] for row in cursor.fetchall()]
+        word['definitions'] = []
+        word['examples'] = []
+        word['translations'] = []
+        word['synonyms'] = []
+        word['antonyms'] = []
+        for id in pos_ids:
+            cursor.execute("SELECT definition FROM definitions WHERE pos_id = ?", (id,))
+            word['definitions'].append(cursor.fetchall())
 
-        cursor.execute("SELECT example FROM examples WHERE word_id = ?", (word_id,))
-        word['examples'] = cursor.fetchall()
+            cursor.execute("SELECT example FROM examples WHERE pos_id = ?", (id,))
+            word['examples'].append(cursor.fetchall())
 
-        cursor.execute("SELECT translation FROM translations WHERE word_id = ?", (word_id,))
-        word['translations'] = cursor.fetchall()
+            cursor.execute("SELECT translation FROM translations WHERE pos_id = ?", (id,))
+            word['translations'].append(cursor.fetchall())
 
-        cursor.execute("SELECT synonym FROM synonyms WHERE word_id = ?", (word_id,))
-        word['synonyms'] = cursor.fetchall()
+            cursor.execute("SELECT synonym FROM synonyms WHERE pos_id = ?", (id,))
+            word['synonyms'].append(cursor.fetchall())
 
-        cursor.execute("SELECT antonym FROM antonyms WHERE word_id = ?", (word_id,))
-        word['antonyms'] = cursor.fetchall()
+            cursor.execute("SELECT antonym FROM antonyms WHERE pos_id = ?", (id,))
+            word['antonyms'].append(cursor.fetchall())
 
         return word
 

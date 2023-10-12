@@ -39,6 +39,10 @@ def addToWord():
     editWord(Word, newPoSandDef=[(PoS,Definition)], newEx=Example, newTrans=Translation, newSyns=Synonym, newAnts=Antonym)
     return redirect('/')
 
+@app.route('/editExistingWord', methods=['GET', 'POST'])
+def editExistingWord():
+    pass
+
 @app.route('/remove', methods=['POST'])
 def remove():
     Word = request.form.get('Word')
