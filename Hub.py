@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect
-from SQLDictionary import addWord, search, editWord, removeWord
+from SQLDictionary import addWord, search, addDef, removeWord
 import json
 
 app = Flask(__name__)
@@ -35,8 +35,8 @@ def addToWord():
     Example = request.form.get('Example')
     Synonym = request.form.get('Syns')
     Antonym = request.form.get('Ants')
-
-    editWord(Word, newPoSandDef=[(PoS,Definition)], newEx=Example, newTrans=Translation, newSyns=Synonym, newAnts=Antonym)
+    
+    addDef(Word, PoS, Definition, examples=Example, translations=Translation, synonyms=Synonym, antonyms=Antonym)
     return redirect('/')
 
 @app.route('/editExistingWord', methods=['GET', 'POST'])

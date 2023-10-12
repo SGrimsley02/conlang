@@ -102,13 +102,26 @@ def addWord(new_word, ipa_rep, PoSandDefs, examples=[], translations=[], synonym
                 cursor.execute("INSERT INTO antonyms (pos_id, antonym) VALUES (?, ?)", (pos_id, ant))
     conn.commit()
 
-def addDef(word_adding, PoSandDef, examples=[], translations=[], synonyms=[], antonyms=[]):
+def addDef(word_adding, PoS, definition, examples=None, translations=None, synonyms=None, antonyms=None):
     conn = sqlite3.connect("mydictionary.db")
     cursor = conn.cursor()
-    cursor.execute("SELECT word_it FROM words WHERE word=?", (word_adding,))
-    word_id = cursor.fetchone()
-    if word_id:
-        PoS, Def = PoSandDef
+    cursor.execute("SELECT word_id, ipa FROM words WHERE word = ?", (word_adding,))
+    word_info = cursor.fetchone()
+    if word_info:
+        word_id, ipa = word_info ##Still figuring out if I need ipa for anything here
+        cursor.execute("INSERT INTO parts_of_speech (word_id, part_of_speech) VALUES (?, ?)", (word_id, PoS))
+        pos_id = cursor.lastrowid
+        cursor.execute("INSERT INTO definitions (pos_id, definition) VALUES (?, ?)", (pos_id, definition))
+        if examples:
+            cursor.execute("INSERT INTO examples (pos_id, example) VALUES (?, ?)", (pos_id, examples))
+        if translations:
+            cursor.execute("INSERT INTO translations (pos_id, translation) VALUES (?, ?)", (pos_id, translations))
+        if synonyms:
+            cursor.execute("INSERT INTO synonyms (pos_id, synonym) VALUES (?, ?)", (pos_id, synonyms))
+        if antonyms:
+            cursor.execute("INSERT INTO antonyms (pos_id, antonym) VALUES (?, ?)", (pos_id, antonyms))
+    conn.commit()
+        
         
 def editWord(word_to_edit, new_ipa=None, newPoSandDef=None, newEx=[], newTrans=[], newSyns=[], newAnts=[]):
     cursor.execute("SELECT word_id FROM words WHERE word=?", (word_to_edit,))
