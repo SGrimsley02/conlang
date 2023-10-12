@@ -78,7 +78,7 @@ translations = ["ejemplo (Spanish)", "exemplo (Portuguese)"]
 synonyms = ["illustration", "instance"]
 #####
 
-def addWord(new_word, ipa_rep, PoSandDefs, examples=[], translations=[], synonyms=[], antonyms=[]): ## Adds word to dictionary
+def addWord(new_word, ipa_rep, PoSandDefs, example=None, translation=None, synonym=None, antonym=None): ## Adds word to dictionary
     '''Takes a word, ipa, list of tuples with PoS and defs, optional examples, translations, synonyms, and antonyms lists.'''
     conn = sqlite3.connect("mydictionary.db")
     cursor = conn.cursor()
@@ -88,18 +88,14 @@ def addWord(new_word, ipa_rep, PoSandDefs, examples=[], translations=[], synonym
         cursor.execute("INSERT INTO parts_of_speech (word_id, part_of_speech) VALUES (?, ?)", (word_id, part_of_speech))
         pos_id = cursor.lastrowid
         cursor.execute("INSERT INTO definitions (pos_id, definition) VALUES (?, ?)", (pos_id, definition))
-        if examples:
-            for example in examples:
-                cursor.execute("INSERT INTO examples (pos_id, example) VALUES (?, ?)", (pos_id, example))
-        if translations:
-            for translation in translations:
-                cursor.execute("INSERT INTO translations (pos_id, translation) VALUES (?, ?)", (pos_id, translation))
-        if synonyms:
-            for syn in synonyms:
-                cursor.execute("INSERT INTO synonyms (pos_id, synonym) VALUES (?, ?)", (pos_id, syn))
-        if antonyms:
-            for ant in antonyms:
-                cursor.execute("INSERT INTO antonyms (pos_id, antonym) VALUES (?, ?)", (pos_id, ant))
+        if example:
+            cursor.execute("INSERT INTO examples (pos_id, example) VALUES (?, ?)", (pos_id, example))
+        if translation:
+            cursor.execute("INSERT INTO translations (pos_id, translation) VALUES (?, ?)", (pos_id, translation))
+        if synonym:
+            cursor.execute("INSERT INTO synonyms (pos_id, synonym) VALUES (?, ?)", (pos_id, synonym))
+        if antonym:
+            cursor.execute("INSERT INTO antonyms (pos_id, antonym) VALUES (?, ?)", (pos_id, antonym))
     conn.commit()
 
 def addDef(word_adding, PoS, definition, examples=None, translations=None, synonyms=None, antonyms=None):
@@ -121,9 +117,8 @@ def addDef(word_adding, PoS, definition, examples=None, translations=None, synon
         if antonyms:
             cursor.execute("INSERT INTO antonyms (pos_id, antonym) VALUES (?, ?)", (pos_id, antonyms))
     conn.commit()
-        
-        
-def editWord(word_to_edit, new_ipa=None, newPoSandDef=None, newEx=[], newTrans=[], newSyns=[], newAnts=[]):
+
+def editWord(word_to_edit, new_ipa=None, newPoSandDef=None, newEx=[], newTrans=[], newSyns=[], newAnts=[]): ##Needs reworking
     cursor.execute("SELECT word_id FROM words WHERE word=?", (word_to_edit,))
     word_id = cursor.fetchone()
     if word_id:
@@ -151,6 +146,8 @@ def editWord(word_to_edit, new_ipa=None, newPoSandDef=None, newEx=[], newTrans=[
         raise IndexError("Word does not exist.")
 
 def removeWord(word_to_remove):
+    conn = sqlite3.connect("mydictionary.db")
+    cursor = conn.cursor()
     cursor.execute("SELECT word_id FROM words WHERE word = ?", (word_to_remove,))
     word_id = cursor.fetchone()
     if word_id:
@@ -160,7 +157,7 @@ def removeWord(word_to_remove):
     else:
         raise IndexError("Word does not exist.")
 
-def printWord(word_to_find): ## Mostly just for early testing, may not currently work
+def printWord(word_to_find): ##Needs reworking, for testing purposes only
     # Retrieve the word and its IPA representation from the "words" table
     conn = sqlite3.connect("mydictionary.db")
     cursor = conn.cursor()
