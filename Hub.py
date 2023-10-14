@@ -1,6 +1,5 @@
 from flask import Flask, request, render_template, redirect
 from SQLDictionary import addWord, search, addDef, removeWord
-import json
 
 app = Flask(__name__)
 
