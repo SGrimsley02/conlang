@@ -26,27 +26,37 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS parts_of_speech (
 cursor.execute('''CREATE TABLE IF NOT EXISTS definitions (
                     def_id INTEGER PRIMARY KEY,
                     pos_id INTEGER,
+                    word_id INTEGER,
                     definition TEXT,
+                    FOREIGN KEY (word_id) REFERENCES words (word_id),
                     FOREIGN KEY (pos_id) REFERENCES parts_of_speech (pos_id))''')
 cursor.execute('''CREATE TABLE IF NOT EXISTS examples (
                examp_id INTEGER PRIMARY KEY,
                pos_id INTEGER,
+               word_id INTEGER,
                example TEXT,
+               FOREIGN KEY (word_id) REFERENCES words (word_id),
                FOREIGN KEY (pos_id) REFERENCES parts_of_speech (pos_id))''')
 cursor.execute('''CREATE TABLE IF NOT EXISTS translations (
                     trans_id INTEGER PRIMARY KEY,
                     pos_id INTEGER,
+                    word_id INTEGER,
                     translation TEXT,
+                    FOREIGN KEY (word_id) REFERENCES words (word_id),
                     FOREIGN KEY (pos_id) REFERENCES parts_of_speech (pos_id))''')
 cursor.execute('''CREATE TABLE IF NOT EXISTS synonyms (
                     syn_id INTEGER PRIMARY KEY,
                     pos_id INTEGER,
+                    word_id INTEGER,
                     synonym TEXT,
+                    FOREIGN KEY (word_id) REFERENCES words (word_id),
                     FOREIGN KEY (pos_id) REFERENCES parts_of_speech (pos_id))''')
 cursor.execute('''CREATE TABLE IF NOT EXISTS antonyms (
                     ant_id INTEGER PRIMARY KEY,
                     pos_id INTEGER,
+                    word_id INTEGER,
                     antonym TEXT,
+                    FOREIGN KEY (word_id) REFERENCES words (word_id),
                     FOREIGN KEY (pos_id) REFERENCES parts_of_speech (pos_id))''')
 cursor.execute('''CREATE TABLE IF NOT EXISTS grammar (
                id INTEGER PRIMARY KEY,
@@ -78,24 +88,24 @@ translations = ["ejemplo (Spanish)", "exemplo (Portuguese)"]
 synonyms = ["illustration", "instance"]
 #####
 
-def addWord(new_word, ipa_rep, PoSandDefs, example=None, translation=None, synonym=None, antonym=None): ## Adds word to dictionary
+def addWord(new_word, ipa_rep, PoS, definition, example=None, translation=None, synonym=None, antonym=None): ## Adds word to dictionary
     '''Takes a word, ipa, list of tuples with PoS and defs, optional examples, translations, synonyms, and antonyms lists.'''
     conn = sqlite3.connect("mydictionary.db")
     cursor = conn.cursor()
     cursor.execute("INSERT INTO words (word, ipa) VALUES (?, ?)", (new_word, ipa_rep))
     word_id = cursor.lastrowid
-    for part_of_speech, definition in PoSandDefs:
-        cursor.execute("INSERT INTO parts_of_speech (word_id, part_of_speech) VALUES (?, ?)", (word_id, part_of_speech))
-        pos_id = cursor.lastrowid
-        cursor.execute("INSERT INTO definitions (pos_id, definition) VALUES (?, ?)", (pos_id, definition))
-        if example:
-            cursor.execute("INSERT INTO examples (pos_id, example) VALUES (?, ?)", (pos_id, example))
-        if translation:
-            cursor.execute("INSERT INTO translations (pos_id, translation) VALUES (?, ?)", (pos_id, translation))
-        if synonym:
-            cursor.execute("INSERT INTO synonyms (pos_id, synonym) VALUES (?, ?)", (pos_id, synonym))
-        if antonym:
-            cursor.execute("INSERT INTO antonyms (pos_id, antonym) VALUES (?, ?)", (pos_id, antonym))
+
+    cursor.execute("INSERT INTO parts_of_speech (word_id, part_of_speech) VALUES (?, ?)", (word_id, PoS))
+    pos_id = cursor.lastrowid
+    cursor.execute("INSERT INTO definitions (pos_id, word_id, definition) VALUES (?, ?, ?)", (pos_id, word_id, definition))
+    if example:
+        cursor.execute("INSERT INTO examples (pos_id, word_id, example) VALUES (?, ?, ?)", (pos_id, word_id, example))
+    if translation:
+        cursor.execute("INSERT INTO translations (pos_id, word_id, translation) VALUES (?, ?, ?)", (pos_id, word_id, translation))
+    if synonym:
+        cursor.execute("INSERT INTO synonyms (pos_id, word_id, synonym) VALUES (?, ?, ?)", (pos_id, word_id, synonym))
+    if antonym:
+        cursor.execute("INSERT INTO antonyms (pos_id, word_id, antonym) VALUES (?, ?, ?)", (pos_id, word_id, antonym))
     conn.commit()
 
 def addDef(word_adding, PoS, definition, examples=None, translations=None, synonyms=None, antonyms=None):

@@ -8,6 +8,7 @@ app = Flask(__name__)
 def index():
     return render_template('LangHub.html')
 
+##EDIT FUNCTIONS
 @app.route('/EditDictionary.html', methods=['GET', 'POST'])
 def EditDictionary():
     return render_template('Edit/EditDictionary.html')
@@ -23,7 +24,7 @@ def addToDict():
     Synonym = request.form.get('Syns')
     Antonym = request.form.get('Ants')
 
-    addWord(Word, Ipa, [(PoS, Definition)], [Example], [Translation], [Synonym], [Antonym])
+    addWord(Word, Ipa, PoS, Definition, Example, Translation, Synonym, Antonym)
     return redirect('/')
 
 @app.route('/addToWord', methods=['POST'])
@@ -48,13 +49,15 @@ def remove():
     Word = request.form.get('Word')
 
     removeWord(Word)
-    return redirect('/')
+    return redirect('/EditDictionary.html')
 
 @app.route('/EditGrammar.html', methods=['GET', 'POST'])
 def EditGrammar():
     return render_template('Edit/EditGrammar.html')
 
 
+
+##VIEW FUNCTIONS
 @app.route('/ViewDictionary.html', methods=['GET', 'POST'])
 def ViewDictionary():
     return render_template('View/Dict/ViewDictionary.html')
@@ -68,9 +71,21 @@ def searchDict():
     else:
         return render_template('View/Dict/noResult.html', entry_name=Word)
 
+@app.route('/viewAll', methods=['GET', 'POST'])
+def viewAll(): ##View like a physical dictionary
+    pass
 
 
 
+
+
+
+
+
+
+
+
+##TRANSLATE FUNCTIONS
 
 if __name__ == '__main__':
     app.run(debug=True)
