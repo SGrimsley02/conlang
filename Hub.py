@@ -54,7 +54,9 @@ def remove():
 def EditGrammar():
     return render_template('Edit/EditGrammar.html')
 
-
+@app.route('/particleOverview.html', methods=['GET', 'POST'])
+def ParticleOverview():
+    return render_template('Edit/Particles/Overview.html')
 
 ##VIEW FUNCTIONS
 @app.route('/ViewDictionary.html', methods=['GET', 'POST'])
