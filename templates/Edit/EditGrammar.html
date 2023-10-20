@@ -58,6 +58,11 @@
         .btn:hover {
             background-color: #0056b3;
         }
+
+        .hidden-btn {
+            display: none;
+        }
+
     </style>
 </head>
 <body>
@@ -93,16 +98,64 @@
         Interjections
         ...
     -->
+    
+        
 
     <div class="container">
-        <a class="btn" href="editPhrases.html">Phrases</a>
-        <a class="btn" href="editNouns.html">Nouns</a>
-        <a class="btn" href="editVerbs.html">Verbs</a>
-        <a class="btn" href="editDescriptors.html">Adjectives/Adverbs</a>
-        <a class="btn" href="editAdpositions.html">Adpositions</a>
-        <a class="btn" href="editParticles.html">Particles</a>
-        <a class="btn" href="editDeterminers.html">Determiners</a>
-        <a class="btn" href="editInterjections.html">Interjections</a>
+    <div class="column">
+        <button class="btn" onclick="revealButtons(this)">Phrases</button>
+        <div class="hidden-btn">
+            <button class="btn" href="/editPhrases">Edit Phrases</button>
+        </div>
     </div>
+    <div class="column">
+        <button class="btn" onclick="revealButtons(this)">Nouns</button>
+        <div class="hidden-btn">
+            <button class="btn" href="/nounOverview">Overview</button>
+            <button class="btn" href="/editPronouns">Pronouns</button>
+            <button class="btn" href="/editProperNouns">Proper Nouns</button>
+            <button class="btn" href="/editOtherNouns">General Nouns</button>
+        </div>
+    </div>
+    <div class="column">
+        <button class="btn" onclick="revealButtons(this)">Verbs</button>
+        <div class="hidden-btn">
+            <button class="btn" href="/verbOverview">Overview</button>
+            <button class="btn" href="/editVerbConj">Conjugates</button>
+        </div>
+    
+    </div>
+    <div class="column">
+        <button class="btn" onclick="revealButtons(this)">Adjectives/Adverbs</button>
+    
+    </div>
+    <div class="column">
+        <button class="btn" onclick="revealButtons(this)">Adpositions</button>
+        
+    </div>
+    <div class="column">
+        <button class="btn" onclick="revealButtons(this)">Particles</button>
+        
+    </div>
+    <div class="column">
+        <button class="btn" onclick="revealButtons(this)">Determiners</button>
+        
+    </div>
+    <div class="column">
+        <button class="btn" onclick="revealButtons(this)">Interjections</button>
+
+    </div>
+    </div>
+    <script>
+        function revealButtons(button) {
+            var hiddenButtons = button.nextElementSibling;
+            if (hiddenButtons.style.display === "none") {
+                hiddenButtons.style.display = "block";
+            } else {
+                hiddenButtons.style.display = "none";
+            }
+        }
+    </script>
+
 </body>
 </html>
