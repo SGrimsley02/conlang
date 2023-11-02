@@ -112,7 +112,7 @@
         <button class="btn" onclick="revealButtons(this)">Nouns</button>
         <div class="hidden-btn">
             <button class="btn" href="/nounOverview">Overview</button>
-            <button class="btn" href="/editPronouns">Pronouns</button>
+            <button class="btn" href="/editPronouns.html">Pronouns</button>
             <button class="btn" href="/editProperNouns">Proper Nouns</button>
             <button class="btn" href="/editNounClass">Noun Class</button>
             <button class="btn" href="/editOtherNouns">General Nouns</button>
@@ -147,7 +147,7 @@
     <div class="column">
         <button class="btn" onclick="revealButtons(this)">Particles</button>
         <div class="hidden-btn">
-            <a class="btn" href="/particleOverview.html">Overview</a>
+            <button class="btn" href="/particleOverview.html">Overview</button>
         </div>
         
     </div>
@@ -169,10 +169,10 @@
     <script>
         function revealButtons(button) {
             var hiddenButtons = button.nextElementSibling;
-            if (hiddenButtons.style.display === "none") {
-                hiddenButtons.style.display = "block";
-            } else {
+            if (hiddenButtons.style.display === "block") {
                 hiddenButtons.style.display = "none";
+            } else {
+                hiddenButtons.style.display = "block";
             }
         }
     </script>

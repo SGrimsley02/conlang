@@ -52,11 +52,11 @@ def remove():
 
 @app.route('/EditGrammar.html', methods=['GET', 'POST'])
 def EditGrammar():
-    return render_template('Edit/EditGrammar.html')
+    return render_template('Edit/Grammar/EditGrammar.html')
 
-@app.route('/particleOverview.html', methods=['GET', 'POST'])
-def ParticleOverview():
-    return render_template('Edit/Particles/Overview.html')
+@app.route('/editPronouns.html', methods=['GET', 'POST'])
+def editPronouns():
+    return render_template('Edit/Grammar/Nouns/Pronouns.html')
 
 ##VIEW FUNCTIONS
 @app.route('/ViewDictionary.html', methods=['GET', 'POST'])
