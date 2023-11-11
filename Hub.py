@@ -46,7 +46,6 @@ def editExistingWord():
 @app.route('/remove', methods=['POST'])
 def remove():
     Word = request.form.get('Word')
-
     removeWord(Word)
     return redirect('/EditDictionary.html')
 
@@ -88,5 +87,6 @@ def viewAll(): ##View like a physical dictionary
 
 ##TRANSLATE FUNCTIONS
 
+##Run
 if __name__ == '__main__':
     app.run(debug=True)

@@ -31,12 +31,12 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS definitions (
                     FOREIGN KEY (word_id) REFERENCES words (word_id),
                     FOREIGN KEY (pos_id) REFERENCES parts_of_speech (pos_id))''')
 cursor.execute('''CREATE TABLE IF NOT EXISTS examples (
-               examp_id INTEGER PRIMARY KEY,
-               pos_id INTEGER,
-               word_id INTEGER,
-               example TEXT,
-               FOREIGN KEY (word_id) REFERENCES words (word_id),
-               FOREIGN KEY (pos_id) REFERENCES parts_of_speech (pos_id))''')
+                examp_id INTEGER PRIMARY KEY,
+                pos_id INTEGER,
+                word_id INTEGER,
+                example TEXT,
+                FOREIGN KEY (word_id) REFERENCES words (word_id),
+                FOREIGN KEY (pos_id) REFERENCES parts_of_speech (pos_id))''')
 cursor.execute('''CREATE TABLE IF NOT EXISTS translations (
                     trans_id INTEGER PRIMARY KEY,
                     pos_id INTEGER,
@@ -59,34 +59,20 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS antonyms (
                     FOREIGN KEY (word_id) REFERENCES words (word_id),
                     FOREIGN KEY (pos_id) REFERENCES parts_of_speech (pos_id))''')
 cursor.execute('''CREATE TABLE IF NOT EXISTS grammar (
-               id INTEGER PRIMARY KEY,
-               overview BLOB,
-               highlights BLOB,
-               nouns BLOB,
-               verbs BLOB,
-               adwords BLOB,
-               adpositions BLOB,
-               determiners BLOB,
-               particles BLOB,
-               interjections BLOB,
-               other BLOB)''')
+                id INTEGER PRIMARY KEY,
+                overview BLOB,
+                highlights BLOB,
+                nouns BLOB,
+                verbs BLOB,
+                adwords BLOB,
+                adpositions BLOB,
+                determiners BLOB,
+                particles BLOB,
+                interjections BLOB,
+                other BLOB)''')
 conn.commit()
 cursor.close()
 conn.close()
-
-##### Sample #####
-
-new_word = "example"
-ipa_representation = "/ɪɡˈzæmpl/"
-parts_of_speech_and_definitions = [
-    ("Noun", "A representative of a group; a typical instance."),
-    ("Verb", "To be illustrated or exemplified (by)."),
-    ("Adjective", "Serving as a pattern; typical."),
-    ("Verb", "To prove; to make an example (out of)")
-]
-translations = ["ejemplo (Spanish)", "exemplo (Portuguese)"]
-synonyms = ["illustration", "instance"]
-#####
 
 def addWord(new_word, ipa_rep, PoS, definition, example=None, translation=None, synonym=None, antonym=None): ## Adds word to dictionary
     '''Takes a word, ipa, list of tuples with PoS and defs, optional examples, translations, synonyms, and antonyms lists.'''
