@@ -26,6 +26,7 @@ In the future, I do plan to have a native conscript creation tool available. How
 In the near future, plans include:
 * Central hub window for program
 * Support for recording additional language features, such as Syntax, Semantics, and Culture
+* Move over to Docker to make dependencies less of an issue
 * Expanding support for example sentences
 * Automatic IPA translations
 * Resources for coming up with conlang ideas
