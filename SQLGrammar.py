@@ -28,8 +28,24 @@ conn.close()
 def createPost(title, text, tag=None):
     conn = get_db_connection()
     cursor = get_db_cursor()
-    if tag:
-        cursor.execute("INSERT INTO grammar (title, tag, body) VALUES (?, ?, ?)", (title, tag, text))
-    else:
-        cursor.execute("INSERT INTO grammar (title, body) VALUES (?, ?, ?)", (title, text))
+    cursor.execute("INSERT INTO grammar (title, tag, body) VALUES (?, ?, ?)", (title, tag, text))
     conn.commit()
+
+def getPosts(tag=None):
+    conn = get_db_connection()
+    cursor = get_db_cursor()
+    if tag:
+        cursor.execute("SELECT title, tag, body FROM grammar WHERE tag = ?", (tag,))
+    else:
+        cursor.execute("SELECT title, tag, body FROM grammar")
+    entries = cursor.fetchall()
+    
+    return entries
+
+def getTags():
+    conn = get_db_connection()
+    cursor = get_db_cursor()
+    cursor.execute("SELECT DISTINCT tag FROM grammar")
+    unique_tags = [tag[0] for tag in cursor.fetchall()]
+    
+    return unique_tags

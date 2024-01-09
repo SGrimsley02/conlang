@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, redirect
 from SQLDictionary import addWord, search, addDef, removeWord
+from SQLGrammar import createPost, getPosts, getTags
 
 app = Flask(__name__)
 
@@ -57,6 +58,18 @@ def EditGrammar():
 def editPronouns():
     return render_template('Edit/Grammar/Nouns/Pronouns.html')
 
+@app.route('/editOverview.html', methods=['GET', 'POST'])
+def EditGrammarOverview():
+    return render_template('Edit/Grammar/editOverview.html')
+
+@app.route('/savePost', methods=['GET', 'POST'])
+def savePost():
+    title = request.form.get('title')
+    text = request.form.get('text')
+    tag = request.form.get('tag')
+    createPost(title, text, tag=tag)
+    return redirect('/editOverview.html')
+
 ##VIEW FUNCTIONS
 @app.route('/ViewDictionary.html', methods=['GET', 'POST'])
 def ViewDictionary():
@@ -75,7 +88,12 @@ def searchDict():
 def viewAll(): ##View like a physical dictionary
     pass
 
-
+@app.route('/ViewGrammar.html', methods=['GET', 'POST'])
+def ViewGrammar():
+    tag = request.args.get('tag')
+    uniqueTags = getTags()
+    entries = getPosts(tag)
+    return render_template('View/ViewGrammar.html', entries=entries, selected_tag=tag, tags=uniqueTags)
 
 
 

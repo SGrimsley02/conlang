@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Grammar Overview</title>
+    <style>
+        @font-face {
+            font-family: 'Conscript';
+            src: url('fonts/Conscript Regular.ttf') format('truetype');
+        }
+        body {
+            font-family: 'Conscript', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: aliceblue;
+        }
+
+        header {
+            font-family: 'Conscript', serif;
+            padding: 20px;
+            background-color: black;
+            color:cornsilk;
+            text-align: center;
+        }
+
+        input {
+            font-family: 'Conscript', sans-serif;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+
+        .column {
+            flex: 1;
+            background-color: aliceblue;
+            border: 1px solid black;
+            padding: 20px;
+            text-align: center;
+            margin: 10px;
+            border-radius: 5px;
+        }
+
+        .btn {
+            display: block;
+            width: 95%;
+            padding: 10px;
+            background-color: #0074d9;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .hidden-btn {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+    <a href="javascript:history.go(-1)">Go Back</a>
+
+    <h1>Grammar Overview</h1>
+    <form action="/savePost" method="POST">
+        <label for="title">Title:</label><br>
+        <input type="title" id="title" name="title" style="width: 100%;"><br><br>
+
+        <label for="tag">Tag:</label><br>
+        <input type="tag" id="tag" name="tag" style="width: 100%;"><br><br>
+
+        <label for="text">Body Text:</label><br>
+        <textarea id="text" name="text" rows="10" cols="50" style="width: 100%;"></textarea><br><br>
+
+        <button type="submit">Save Post</button>
+    </form>
+</body>

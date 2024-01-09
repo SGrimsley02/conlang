@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Grammar</title>
+</head>
+<body>
+    <a href="javascript:history.go(-1)">Go Back</a>
+
+    <h1>Grammar Entries</h1>
+    <p>Filter by Tag</p>
+    <ul>
+        <li><a href="/ViewGrammar.html">All</a></li>
+        {% for tag in tags %}
+            <li><a href="/ViewGrammar.html?tag={{ tag }}">{{ tag }}</a></li>
+        {% endfor %}
+    </ul>
+    {% if selected_tag %}
+        <h2>Filtered by Tag: {{ selected_tag }}</h2>
+    {% endif %}
+    {% for entry in entries %}
+        <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
+            <h2>{{ entry[0] }}</h2> <!-- Display title -->
+            <p><strong>Tag:</strong> {{ entry[1] }}</p> <!-- Display tag -->
+            <p>{{ entry[2] }}</p> <!-- Display text/body -->
+        </div>
+    {% endfor %}
+</body>
+</html>
